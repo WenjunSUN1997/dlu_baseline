@@ -24,7 +24,7 @@ class news_paper_dataset(Dataset):
 def get_data_loader(batch_size: int):
     return DataLoader(news_paper_dataset(), batch_size=batch_size)
 
-data_loader = get_data_loader(2)
-for index, infor in enumerate(data_loader):
-    print(index)
-    print(infor)
+# data_loader = get_data_loader(2)
+# for index, infor in enumerate(data_loader):
+#     print(index)
+#     print(infor)

@@ -1,13 +1,11 @@
 from transformers import DetrFeatureExtractor, DetrForObjectDetection
-import torch
 from PIL import Image
-import requests
 import cv2
 from transformers import AdamW
 import data_class
 import xml_load
 
-data_loader = data_class.get_data_loader(2)
+data_loader = data_class.get_data_loader(1)
 feature_extractor = DetrFeatureExtractor.from_pretrained('facebook/detr-resnet-50')
 detr_model = DetrForObjectDetection.from_pretrained('facebook/detr-resnet-50')
 epoch = 10
@@ -32,7 +30,11 @@ for _ in range(epoch):
         images = []
         annotations = []
         for index, file_path in enumerate(file_path_list):
-            images.append(Image.open(file_path+'.jpg'))
+            im = Image.open(file_path+'.jpg')
+            height = im.height
+            width = im.width
+            im = cv2.imread(file_path+'.jpg').reshape(3, height, width)
+            images.append(im)
             annotations.append({'annotations':xml_load.xml_reader(file_path+'.xml').annotations,
                                 'image_id':index})
         inputs = feature_extractor(images=images, annotations=annotations, return_tensors='pt')
