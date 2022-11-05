@@ -67,12 +67,4 @@ class xml_reader():
     #     return annotations
 
 
-x = xml_reader('/home/wenjun_sun/code/dlu_baseline/data/18690715_1-0001.xml')
-
-print(x.annotations)
-# a = x.xml_file.getElementsByTagName('TextRegion')
-# b = []
-# for temp in a:
-#     b.append(temp.getAttribute('type'))
-# print(set(b))
 
