@@ -68,3 +68,5 @@ class xml_reader():
 
 
 
+test = xml_reader('/home/wenjun_sun/code/dlu_baseline/data/18680715_1-0001.xml')
+print(test.annotations)
