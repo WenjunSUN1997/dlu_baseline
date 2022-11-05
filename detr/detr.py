@@ -7,3 +7,4 @@ import cv2
 class detr_doc():
     def __init__(self):
         self.feature_extractor = DetrFeatureExtractor()
+
