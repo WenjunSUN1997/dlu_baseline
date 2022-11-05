@@ -4,6 +4,9 @@ import cv2
 from transformers import AdamW
 import data_class
 import xml_load
+import torch
+
+
 
 data_loader = data_class.get_data_loader(1)
 feature_extractor = DetrFeatureExtractor.from_pretrained('facebook/detr-resnet-50')

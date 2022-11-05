@@ -10,11 +10,11 @@ class news_paper_dataset(Dataset):
         return len(self.file_list)
 
     def __getitem__(self, item):
-        path = '/home/wenjun_sun/code/dlu_baseline/data/'+self.file_list[item]
+        path = '../data/'+self.file_list[item]
         return path
 
     def get_fiel_list(self):
-        file_list = os.listdir('/home/wenjun_sun/code/dlu_baseline/data')
+        file_list = os.listdir('../data')
         file_list = list(set(x.split('.')[0] for x in file_list))
         return file_list
 
@@ -24,7 +24,7 @@ class news_paper_dataset(Dataset):
 def get_data_loader(batch_size: int):
     return DataLoader(news_paper_dataset(), batch_size=batch_size)
 
-# data_loader = get_data_loader(2)
-# for index, infor in enumerate(data_loader):
-#     print(index)
-#     print(infor)
+data_loader = get_data_loader(2)
+for index, infor in enumerate(data_loader):
+    print(index)
+    print(infor)
