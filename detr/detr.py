@@ -1,16 +1,17 @@
-from transformers import DetrFeatureExtractor, DetrForObjectDetection
+from transformers import DetrFeatureExtractor, DetrForObjectDetection, DetrModel, DetrConfig
 from PIL import Image
 import cv2
 from transformers import AdamW
 import data_class
 import xml_load
-import torch
 
-
-
-data_loader = data_class.get_data_loader(1)
+data_loader = data_class.get_data_loader(2)
 feature_extractor = DetrFeatureExtractor.from_pretrained('facebook/detr-resnet-50')
+# from pre-trained
 detr_model = DetrForObjectDetection.from_pretrained('facebook/detr-resnet-50')
+# diy
+config = DetrConfig(num_queries=4)
+detr_model_diy = DetrForObjectDetection(config=config).from_pretrained('facebook/detr-resnet-50')
 epoch = 10
 learning_rate = 3e-5
 adam_epsilon = 1e-8
@@ -41,7 +42,7 @@ for _ in range(epoch):
             annotations.append({'annotations':xml_load.xml_reader(file_path+'.xml').annotations,
                                 'image_id':index})
         inputs = feature_extractor(images=images, annotations=annotations, return_tensors='pt')
-        outputs = detr_model(**inputs)
+        outputs = detr_model_diy(**inputs)
         loss = outputs[0]
         print(loss)
         loss.backward()
