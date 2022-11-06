@@ -1,6 +1,6 @@
 import xml.dom.minidom as xmldom
 
-# 1:pic 2'caption', 3'paragraph', 4'heading'
+# 1:pic 2'caption', 3'paragraph', 4'heading
 class xml_reader():
     def __init__(self, path):
         self.cat2lable = {'pic':0, 'caption':1, 'paragraph':2, 'heading':3}
