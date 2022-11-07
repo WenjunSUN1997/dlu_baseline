@@ -7,7 +7,7 @@ import xml_load
 import torch
 import numpy as np
 
-id2label = { 0:'pic', 1:'caption', 2:'paragraph', 3:'heading'}
+id2label = { 0:'pic', 1:'caption', 2:'paragraph', 3:'heading', 4:'sep'}
 epoch = 100
 data_loader = data_class.get_data_loader(2)
 
@@ -16,7 +16,7 @@ feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-5
 # from pre-trained
 detr_model = DetrForObjectDetection.from_pretrained('facebook/detr-resnet-50')
 # diy
-config = DetrConfig(name_or_path='facebook/detr-resnet-50', num_channels=3,num_queries=70, id2label=id2label)
+config = DetrConfig(name_or_path='facebook/detr-resnet-50', num_channels=3,num_queries=300, id2label=id2label)
 detr_model_diy = DetrForObjectDetection(config=config)
 
 detr_model.zero_grad()

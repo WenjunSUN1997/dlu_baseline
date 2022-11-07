@@ -3,17 +3,20 @@ import xml.dom.minidom as xmldom
 # 1:pic 2'caption', 3'paragraph', 4'heading
 class xml_reader():
     def __init__(self, path):
-        self.cat2lable = {'pic':0, 'caption':1, 'paragraph':2, 'heading':3}
+        self.cat2lable = {'pic':0, 'caption':1, 'paragraph':2, 'heading':3, 'sep':4}
         self.cat2tag_name = {'pic':'GraphicRegion', 'caption':'TextRegion',
-                             'paragraph':'TextRegion', 'heading':'TextRegion'}
+                             'paragraph':'TextRegion', 'heading':'TextRegion',
+                             'sep':'SeparatorRegion'}
         self.path = path
         self.xml_file = self.get_xml_file()
         self.pic_annotation = self.get_annotation('pic')
         self.caption_annotation = self.get_annotation('caption')
         self.paragraph_annotation = self.get_annotation('paragraph')
         self.heading_annotation = self.get_annotation('heading')
+        self.sep_annotation = self.get_annotation('sep')
         self.annotations = self.pic_annotation + self.heading_annotation + \
-                           self.caption_annotation + self.paragraph_annotation
+                           self.caption_annotation + self.paragraph_annotation + \
+                        self.sep_annotation
 
 
     def get_xml_file(self):
@@ -23,6 +26,8 @@ class xml_reader():
         annotations = []
         if cat == 'pic':
             node_list = self.xml_file.getElementsByTagName('GraphicRegion')
+        elif cat == 'sep':
+            node_list = self.xml_file.getElementsByTagName('SeparatorRegion')
         else:
             node_list = [x for x in self.xml_file.getElementsByTagName(self.cat2tag_name[cat])
                              if x.getAttribute('type')==cat]
@@ -39,7 +44,7 @@ class xml_reader():
                 width = points_location[2][0] - points_location[0][0]
             except:
                 print(self.path)
-                
+                continue
 
             area = height * width
             annotations.append({"bbox": [left_top_x, left_top_y, width, height],
@@ -73,5 +78,5 @@ class xml_reader():
 
 
 
-# test = xml_reader('/home/wenjun_sun/code/dlu_baseline/data/18680715_1-0001.xml')
-# print(test.annotations)
+test = xml_reader('../data/18680715_1-0001.xml')
+print(len(test.annotations))
