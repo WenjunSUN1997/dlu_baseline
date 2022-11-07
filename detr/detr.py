@@ -21,11 +21,11 @@ detr_model_diy = DetrForObjectDetection(config=config)
 
 detr_model.zero_grad()
 detr_model.train()
-optimizer = AdamW(params=detr_model.parameters(), lr=1e-05, weight_decay=3)
+optimizer = AdamW(params=detr_model.parameters(), lr=0.01, weight_decay=3)
 # feature_extractor.train()
 
 print('start to train')
-for _ in range(epoch):
+for num_epoch in range(epoch):
     for batch_index, file_path_list in enumerate(data_loader):
         images = []
         annotations = []
@@ -42,6 +42,7 @@ for _ in range(epoch):
 
         results = feature_extractor.post_process_object_detection(outputs, threshold=0, target_sizes=target_size_for_post)
         loss = outputs[0]
+        print(num_epoch)
         print(loss)
         for index, info in enumerate(results):
             print(results[index]['labels'])
