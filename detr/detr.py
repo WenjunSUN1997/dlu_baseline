@@ -7,8 +7,8 @@ import xml_load
 
 id2label = {4:'N/A', 0:'pic', 1:'caption', 2:'paragraph', 3:'heading'}
 data_loader = data_class.get_data_loader(2)
-feature_extractor = DetrFeatureExtractor(feature_extractor_type='DetrFeatureExtractor',id2label=id2label )
-# feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
+# feature_extractor = DetrFeatureExtractor(feature_extractor_type='DetrFeatureExtractor',id2label=id2label )
+feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
 # from pre-trained
 detr_model = DetrForObjectDetection.from_pretrained('facebook/detr-resnet-50')
 # diy
@@ -29,6 +29,7 @@ optimizer_grouped_parameters = [
 optimizer = AdamW(optimizer_grouped_parameters, lr=learning_rate, eps=adam_epsilon)
 detr_model.zero_grad()
 detr_model.train()
+# feature_extractor.train()
 
 print('start to train')
 for _ in range(epoch):
