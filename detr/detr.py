@@ -52,7 +52,7 @@ for _ in range(epoch):
         results = feature_extractor.post_process_object_detection(outputs, threshold=0, target_sizes=target_size_for_post)
         loss = outputs[0]
         print(loss)
-        print(results)
+        # print(results)
         loss.backward()
         optimizer.step()
 
