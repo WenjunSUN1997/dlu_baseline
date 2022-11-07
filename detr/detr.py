@@ -7,7 +7,8 @@ import xml_load
 
 id2label = {4:'N/A', 0:'pic', 1:'caption', 2:'paragraph', 3:'heading'}
 data_loader = data_class.get_data_loader(2)
-feature_extractor = DetrFeatureExtractor(feature_extractor_type='DetrFeatureExtractor')
+feature_extractor = DetrFeatureExtractor(feature_extractor_type='DetrFeatureExtractor',id2label=id2label )
+# feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
 # from pre-trained
 detr_model = DetrForObjectDetection.from_pretrained('facebook/detr-resnet-50')
 # diy
@@ -48,7 +49,7 @@ for _ in range(epoch):
 
         outputs = detr_model_diy(**inputs)
 
-        results = feature_extractor.post_process_object_detection(outputs,  target_sizes=target_size_for_post)
+        results = feature_extractor.post_process_object_detection(outputs, threshold=0, target_sizes=target_size_for_post)
         loss = outputs[0]
         print(loss)
         print(results)
