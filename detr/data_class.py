@@ -18,13 +18,6 @@ class news_paper_dataset(Dataset):
         file_list = list(set(x.split('.')[0] for x in file_list))
         return file_list
 
-
-
-
 def get_data_loader(batch_size: int):
     return DataLoader(news_paper_dataset(), batch_size=batch_size)
 
-data_loader = get_data_loader(2)
-for index, infor in enumerate(data_loader):
-    print(index)
-    print(infor)
