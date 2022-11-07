@@ -32,10 +32,15 @@ class xml_reader():
             points_location = node.getElementsByTagName('Coords')[0].getAttribute('points')
             points_location = [[int(y) for y in x.split(',')] for x in points_location.split(' ')]
             # print(points_location) 调试点
-            left_top_x = points_location[-1][0]
-            left_top_y = points_location[-1][1]
-            height = points_location[2][1] - points_location[0][1]
-            width = points_location[2][0] - points_location[0][0]
+            try:
+                left_top_x = points_location[-1][0]
+                left_top_y = points_location[-1][1]
+                height = points_location[2][1] - points_location[0][1]
+                width = points_location[2][0] - points_location[0][0]
+            except:
+                print(self.path)
+                
+
             area = height * width
             annotations.append({"bbox": [left_top_x, left_top_y, width, height],
                                 "area": area,
