@@ -8,7 +8,6 @@ import torch
 
 data_loader = data_class.get_data_loader(8)
 
-
 class doc_detr(torch.nn.Module):
 
     def __init__(self):
@@ -16,10 +15,10 @@ class doc_detr(torch.nn.Module):
         self.epoch = 100
         self.id2label = { 0:'pic', 1:'caption', 2:'paragraph', 3:'heading'}
         self.feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
-        self.config = DetrConfig(name_or_path='facebook/detr-resnet-50',
-
+        self.config = DetrConfig(
+                                use_pretrained_backbone = False,
                                  num_channels=3,
-                                 num_queries=70,
+                                 num_queries=100,
                                  id2label=self.id2label)
         self.detr_model = DetrForObjectDetection(config=self.config)
 
@@ -46,7 +45,7 @@ class doc_detr(torch.nn.Module):
 def train_model():
     doc_model = doc_detr()
     doc_model.train()
-    optimizer = AdamW(params=doc_model.parameters(), lr=0.01, weight_decay=3)
+    optimizer = AdamW(params=doc_model.parameters(), lr=0.001)
 
     for num_epoch in range(doc_model.epoch):
         for batch_index, file_path_list in enumerate(data_loader):
@@ -54,11 +53,12 @@ def train_model():
 
             loss, results = doc_model(file_path_list)
             print(loss)
-            for index, info in enumerate(results):
-                print(results[index]['labels'])
+            # for index, info in enumerate(results):
+            #     print(results[index]['labels'])
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+        torch.save(doc_model.state_dict(), 'doc_model.pkl')
 
 if __name__ == '__main__':
     train_model()

@@ -47,7 +47,11 @@ class xml_reader():
                 continue
 
             area = height * width
+            points_location = node.getElementsByTagName('Coords')[0].getAttribute('points')
+            seg = points_location.replace(',', ' ').split(' ')
+            seg = [[int(x) for x in seg]]
             annotations.append({"bbox": [left_top_x, left_top_y, width, height],
+
                                 "area": area,
                                 "iscrowd": 0,
                                 "category_id": self.cat2lable[cat]})
@@ -79,4 +83,4 @@ class xml_reader():
 
 
 test = xml_reader('../data/18680715_1-0001.xml')
-print(len(test.annotations))
+print((test.annotations))

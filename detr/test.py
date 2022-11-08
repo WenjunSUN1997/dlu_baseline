@@ -8,8 +8,11 @@ url ="https://www.ourchinastory.com/images/cover/thats-day/2021/03/normal/%E7%95
 
 
 model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
+config = DetrConfig( num_queries=70,
+                     use_pretrained_backbone=False,
+                    )
 
-
+model = DetrForObjectDetection(config)
 feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
 path = '../data/18680715_1-0002.jpg'
 # z = cv2.imread(path)
