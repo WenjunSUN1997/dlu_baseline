@@ -15,8 +15,7 @@ class xml_reader():
         self.heading_annotation = self.get_annotation('heading')
         self.sep_annotation = self.get_annotation('sep')
         self.annotations = self.pic_annotation + self.heading_annotation + \
-                           self.caption_annotation + self.paragraph_annotation + \
-                        self.sep_annotation
+                           self.caption_annotation + self.paragraph_annotation
 
 
     def get_xml_file(self):
@@ -51,36 +50,12 @@ class xml_reader():
             seg = points_location.replace(',', ' ').split(' ')
             seg = [[int(x) for x in seg]]
             annotations.append({"bbox": [left_top_x, left_top_y, width, height],
-
                                 "area": area,
                                 "iscrowd": 0,
+                                "segmentation": seg,
                                 "category_id": self.cat2lable[cat]})
 
         return annotations
 
 
-    # def get_pic_annotation(self):
-    #     if len(self.xml_file.getElementsByTagName('GraphicRegion')) == 0:
-    #         return None
-    #     annotations = []
-    #     pic_node_list = self.xml_file.getElementsByTagName('GraphicRegion')
-    #     for pic_node in pic_node_list:
-    #         points_location = pic_node.getElementsByTagName('Coords')[0].getAttribute('points')
-    #         points_location = [[int(y) for y in x.split(',')] for x in points_location.split(' ')]
-    #         # print(points_location) 调试点
-    #         left_top_x = points_location[-1][0]
-    #         left_top_y = points_location[-1][1]
-    #         height = points_location[2][1] - points_location[0][1]
-    #         width = points_location[2][0] - points_location[0][0]
-    #         area = height * width
-    #         annotations.append({"bbox": [left_top_x, left_top_y, width, height],
-    #                              "area":area,
-    #                              "iscrowd": 0,
-    #                              "category_id": 1})
-    #
-    #     return annotations
 
-
-
-test = xml_reader('../data/18680715_1-0001.xml')
-print((test.annotations))

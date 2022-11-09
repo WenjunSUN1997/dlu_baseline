@@ -1,10 +1,30 @@
 from transformers import DetrFeatureExtractor, DetrForObjectDetection,DetrModel, DetrConfig
 import torch
+import io
+import matplotlib as plt
 from PIL import Image
 import requests
 import cv2
 import numpy
+from pycocotools.cocoeval import COCOeval
+from pycocotools.coco import  COCO
 url ="https://www.ourchinastory.com/images/cover/thats-day/2021/03/normal/%E7%95%B6%E4%BB%A3%E4%B8%AD%E5%9C%8B-%E5%AD%B8%E6%87%82%E4%B8%AD%E5%9C%8B-%E7%95%B6%E5%B9%B4%E4%BB%8A%E6%97%A5-%E5%A7%9A%E6%98%8ENBA%E5%90%8D%E4%BA%BA%E5%A0%82COVER_x3.jpg"
+feature_extractor = DetrFeatureExtractor.from_pretrained("facebook/detr-resnet-50")
+
+coco = COCO('instances_val2017.json')
+
+coco_predicted = coco.loadRes('my_result.json')
+cocoEval = COCOeval(coco,coco_predicted,'bbox')
+cocoEval.params.imgIds =[2]
+
+z = cocoEval.evaluate()
+x = cocoEval.accumulate()
+y = cocoEval.summarize()
+
+a = torch.tensor([[1,2.3,4]])
+x = [int(x.item()) for x in a[0]]
+
+
 
 
 model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")

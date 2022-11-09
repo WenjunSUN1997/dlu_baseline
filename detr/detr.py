@@ -1,11 +1,8 @@
-from transformers import DetrFeatureExtractor, DetrForObjectDetection, DetrModel, DetrConfig
-from PIL import Image
+from transformers import DetrFeatureExtractor, DetrForObjectDetection, DetrConfig
 import cv2
 from transformers import AdamW
 import data_class
 import xml_load
-import torch
-import numpy as np
 
 id2label = { 0:'pic', 1:'caption', 2:'paragraph', 3:'heading', 4:'sep'}
 epoch = 100
@@ -34,7 +31,7 @@ for num_epoch in range(epoch):
             im = cv2.imread(file_path+'.jpg')
             target_size_for_post.append([im.shape[0], im.shape[1]])
             images.append(im)
-            annotations.append({'annotations':xml_load.xml_reader(file_path+'.xml').annotations,
+            annotations.append({'annotations': xml_load.xml_reader(file_path + '.xml').annotations,
                                 'image_id':index})
 
         inputs = feature_extractor(images=images, annotations=annotations, return_tensors='pt')
