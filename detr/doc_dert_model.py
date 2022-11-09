@@ -1,5 +1,6 @@
 import json
-
+import sys
+sys.path.append("..")
 from transformers import DetrFeatureExtractor, DetrForObjectDetection, DetrConfig
 import cv2
 from transformers import AdamW
