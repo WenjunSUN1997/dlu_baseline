@@ -1,10 +1,10 @@
 import pytorch_lightning as pl
-from transformers import DeformableDetrConfig, DeformableDetrForObjectDetection
+from transformers import DetrConfig, DetrForObjectDetection
 import torch
-import data_class_deformable
+import data_class_detr
 from pytorch_lightning import Trainer
 
-train_dataloader, val_dataloader= data_class_deformable.get_dataloader()
+train_dataloader, val_dataloader= data_class_detr.get_dataloader()
 
 
 class Detr(pl.LightningModule):
@@ -13,16 +13,12 @@ class Detr(pl.LightningModule):
         super().__init__()
         # replace COCO classification head with custom head
         self.id2label = { 0:'pic', 1:'caption', 2:'paragraph', 3:'heading'}
-        self.config = DeformableDetrConfig(use_pretrained_backbone = False,
+        self.config = DetrConfig(use_pretrained_backbone = False,
                                  num_channels=3,
                                  num_queries=100,
                                  id2label=self.id2label,
                                  num_labels=len(self.id2label))
-        # self.model = DeformableDetrForObjectDetection(self.config)
-        self.model = DeformableDetrForObjectDetection.from_pretrained("SenseTime/deformable-detr",
-                                                                      num_labels=len(self.id2label),
-                                                                      ignore_mismatched_sizes=True
-                                                                      )
+        self.model = DetrForObjectDetection(self.config)
         self.lr = lr
         self.lr_backbone = lr_backbone
         self.weight_decay = weight_decay
@@ -40,6 +36,8 @@ class Detr(pl.LightningModule):
 
         loss = outputs.loss
         loss_dict = outputs.loss_dict
+        with open('train_log.txt', 'a') as file:
+            file.write(str(batch_idx) + '\t' + str(loss.item()) + '\n')
 
         return loss, loss_dict
 

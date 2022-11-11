@@ -15,7 +15,7 @@ from pycocotools.cocoeval import COCOeval
 data_loader, loader_type = data_class.get_coco_data_loader(8)
 if loader_type == 'coco':
     annotations_coco = COCO('../coco_annotations/annotations.json')
-x = annotations_coco.imgToAnns[0]
+
 class doc_detr(torch.nn.Module):
 
     def __init__(self):
@@ -69,7 +69,7 @@ def train_model():
             loss.backward()
             optimizer.step()
             with open('train_log.txt', 'a') as file:
-                file.write(str(loss.item()) + '\n')
+                file.write(str(num_epoch) +'\t' + str(loss.item()) + '\n')
 
 
         torch.save(doc_model.state_dict(), 'doc_model.pkl')
